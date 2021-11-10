@@ -1,0 +1,116 @@
+## java基础知识--多线程
+
+1. 什么是多线程
+2. 为什么要有多线程
+3. 多线程怎么实现
+   - java.lang.Thread类和java.lang.Runnable接口有什么区别
+4. 原理
+
+
+
+1. ### 实现Runnable接口的多线程例子
+
+```java
+/** 
+* 实现Runnable接口的类 
+* 
+* @author leizhimin 2008-9-13 18:12:10 
+*/ 
+public class DoSomething implements Runnable { 
+    private String name; 
+    public DoSomething(String name) { 
+        this.name = name; 
+    } 
+    public void run() { 
+        for (int i = 0; i < 5; i++) { 
+            for (long k = 0; k < 100000000; k++) ; 
+            System.out.println(name + ": " + i); 
+        } 
+    } 
+}
+
+/** 
+* 测试Runnable类实现的多线程程序 
+* 
+* @author leizhimin 2008-9-13 18:15:02 
+*/ 
+public class TestRunnable { 
+    public static void main(String[] args) { 
+        DoSomething ds1 = new DoSomething("阿三"); 
+        DoSomething ds2 = new DoSomething("李四"); 
+        Thread t1 = new Thread(ds1); 
+        Thread t2 = new Thread(ds2); 
+        t1.start(); 
+        t2.start(); 
+    } 
+}
+```
+
+### 2、扩展Thread类实现的多线程例子
+
+```java
+/** 
+* 测试扩展Thread类实现的多线程程序 
+* 
+* @author leizhimin 2008-9-13 18:22:13 
+*/ 
+public class TestThread extends Thread{ 
+    public TestThread(String name) { 
+        super(name); 
+    } 
+    public void run() { 
+        for(int i = 0;i<5;i++){ 
+            for(long k= 0; k <100000000;k++); 
+            System.out.println(this.getName()+" :"+i); 
+        } 
+    } 
+    public static void main(String[] args) { 
+        Thread t1 = new TestThread("阿三"); 
+        Thread t2 = new TestThread("李四"); 
+        t1.start(); 
+        t2.start(); 
+    } 
+}
+```
+
+
+
+进程: 是资源分配的基本单位
+
+线程: 是一条执行路径, 程序执行时的最小单位, 进程的一个执行
+
+进程:资源分配, 调度运行, 执行处理机调度的基本单位
+
+
+
+
+
+## 线程
+
+1. 什么是线程?
+
+**进程**就是在某种程度上相互隔离的、独立运行的程序
+
+线程化是允许多个活动共存于一个进程中的工具
+
+线程在程序中是独立的、并发的执行路径，每个 线程有它自己的堆栈、自己的程序计数器和自己的局部变量
+
+进程可以支持多个线程
+
+一个进程中的多个线程共享相 同的内存地址空间，这就意味着它们可以访问相同的变量和对象，而且它们从同一堆中分配对象。
+
+Java 线程可以通过直接实例化 Thread 对象或实例化继承 Thread 的对象来创建其它线程
+
+
+
+线程会以以下三种方式之一结束：
+
+ · 线程到达其 run() 方法的末尾。
+
+ · 线程抛出一个未捕获到的 Exception 或 Error。
+
+ · 另一个线程调用一个弃用的 stop() 方法。弃用是指这些方法仍然存在，但是您不应该在新 代码中使用它们，并且应该尽量从现有代码中除去它们。
+
+
+
+Java 并发https://github.com/CyC2018/CS-Notes/blob/master/notes/Java%20%E5%B9%B6%E5%8F%91.md
